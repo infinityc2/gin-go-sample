@@ -8,10 +8,12 @@ import(
 	"net/http"
 )
 
+// TodoAPI repository
 type TodoAPI struct {
 	TodoRepository repository.TodoRepository
 }
 
+// TodoListHandler GetMapping
 func (a TodoAPI) TodoListHandler(c *gin.Context) {
 	var todoModel model.TodoModel
 	todo, err := a.TodoRepository.GetAllTodo()
@@ -24,6 +26,7 @@ func (a TodoAPI) TodoListHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, todoModel)
 }
 
+// AddTodoHandler PostMapping
 func (a TodoAPI) AddTodoHandler(c *gin.Context) {
 	var todo model.Todo
 	err := c.ShouldBindJSON(&todo)
@@ -35,6 +38,7 @@ func (a TodoAPI) AddTodoHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, todo)
 }
 
+// UpdateTodoHandler PutMapping
 func (a TodoAPI) UpdateTodoHandler(c *gin.Context) {
 	var todo model.Todo
 	todoID := c.Param("todo_id")
@@ -47,6 +51,7 @@ func (a TodoAPI) UpdateTodoHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, todo)
 }
 
+// DeleteTodoHandler DeleteMapping
 func (a TodoAPI) DeleteTodoHandler(c *gin.Context) {
 	todoID := c.Param("todo_id")
 	err := a.TodoRepository.DeleteTodo(todoID) 
